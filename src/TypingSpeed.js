@@ -3,16 +3,10 @@ import { Controlled as CodeMirror } from "react-codemirror2";
 import "codemirror/lib/codemirror.css";
 import "codemirror/theme/material.css";
 import "codemirror/mode/python/python";
+import "codemirror/mode/clike/clike";
 import "./TypingSpeed.css";
 
-const sampleCode = `
-for i in range(5):
-\tfor j in range(i + 1):
-\t\tprint("*", end="")
-\tprint("")
-`.trim();
-
-const TypingSpeed = () => {
+const TypingSpeed = ({ sampleCode, handleReset, showBackButton }) => {
   const [text, setText] = useState("");
   const [startTime, setStartTime] = useState(null);
   const [wordCount, setWordCount] = useState(0);
@@ -33,7 +27,7 @@ const TypingSpeed = () => {
     if (text === sampleCode) {
       setIsComplete(true);
     }
-  }, [text]);
+  }, [text, sampleCode]);
 
   const handleChange = (editor, data, value) => {
     setText(value);
@@ -44,14 +38,6 @@ const TypingSpeed = () => {
 
     const words = value.trim().split(/\s+/).filter(Boolean);
     setWordCount(words.length);
-  };
-
-  const handleReset = () => {
-    setText("");
-    setStartTime(null);
-    setWordCount(0);
-    setTimeElapsed(0);
-    setIsComplete(false);
   };
 
   const wordsPerMinute = (wordCount / (timeElapsed / 60)).toFixed(2);
@@ -75,16 +61,26 @@ const TypingSpeed = () => {
   return (
     <div style={{ padding: "20px" }}>
       <h1>Typing Speed Test</h1>
+      {showBackButton && (
+        <button className="back-button" onClick={handleReset}>
+          Back
+        </button>
+      )}
       <div className="code-container">
         <pre>{renderCode()}</pre>
       </div>
       <CodeMirror
         value={text}
         options={{
-          mode: "python",
-          indentWithTabs: true,
+          mode:
+            sampleCode.includes("class") || sampleCode.includes("System.out")
+              ? "text/x-java"
+              : sampleCode.includes("printf")
+              ? "text/x-csrc"
+              : "python",
           theme: "material",
           lineNumbers: true,
+          indentWithTabs: true,
           indentUnit: 4,
           tabSize: 4,
           smartIndent: true,
