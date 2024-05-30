@@ -1,11 +1,15 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
+import { Controlled as CodeMirror } from "react-codemirror2";
+import "codemirror/lib/codemirror.css";
+import "codemirror/theme/material.css";
+import "codemirror/mode/python/python";
 import "./TypingSpeed.css";
 
 const sampleCode = `
 for i in range(5):
-    for j in range(i + 1):
-        print("*", end="")
-    print("")
+\tfor j in range(i + 1):
+\t\tprint("*", end="")
+\tprint("")
 `.trim();
 
 const TypingSpeed = () => {
@@ -13,20 +17,25 @@ const TypingSpeed = () => {
   const [startTime, setStartTime] = useState(null);
   const [wordCount, setWordCount] = useState(0);
   const [timeElapsed, setTimeElapsed] = useState(0);
-  const inputRef = useRef(null);
+  const [isComplete, setIsComplete] = useState(false);
 
   useEffect(() => {
-    const timer = setInterval(() => {
-      if (startTime) {
+    let timer;
+    if (startTime && !isComplete) {
+      timer = setInterval(() => {
         setTimeElapsed((Date.now() - startTime) / 1000);
-      }
-    }, 100);
-
+      }, 100);
+    }
     return () => clearInterval(timer);
-  }, [startTime]);
+  }, [startTime, isComplete]);
 
-  const handleChange = (e) => {
-    const { value } = e.target;
+  useEffect(() => {
+    if (text === sampleCode) {
+      setIsComplete(true);
+    }
+  }, [text]);
+
+  const handleChange = (editor, data, value) => {
     setText(value);
 
     if (!startTime) {
@@ -37,28 +46,12 @@ const TypingSpeed = () => {
     setWordCount(words.length);
   };
 
-  const handleKeyDown = (e) => {
-    if (e.key === "Tab") {
-      e.preventDefault();
-      const start = e.target.selectionStart;
-      const end = e.target.selectionEnd;
-      setText((prevText) => {
-        const newText =
-          prevText.substring(0, start) + "\t" + prevText.substring(end);
-        setTimeout(() => {
-          e.target.selectionStart = e.target.selectionEnd = start + 1;
-        }, 0);
-        return newText;
-      });
-    }
-  };
-
   const handleReset = () => {
     setText("");
     setStartTime(null);
     setWordCount(0);
     setTimeElapsed(0);
-    inputRef.current.focus();
+    setIsComplete(false);
   };
 
   const wordsPerMinute = (wordCount / (timeElapsed / 60)).toFixed(2);
@@ -85,21 +78,37 @@ const TypingSpeed = () => {
       <div className="code-container">
         <pre>{renderCode()}</pre>
       </div>
-      <textarea
-        ref={inputRef}
+      <CodeMirror
         value={text}
-        onChange={handleChange}
-        onKeyDown={handleKeyDown}
-        rows="10"
-        cols="50"
-        placeholder="Start typing..."
-        style={{
-          width: "100%",
-          padding: "10px",
-          fontSize: "16px",
-          fontFamily: "monospace",
+        options={{
+          mode: "python",
+          indentWithTabs: true,
+          theme: "material",
+          lineNumbers: true,
+          indentUnit: 4,
+          tabSize: 4,
+          smartIndent: true,
+          extraKeys: {
+            Tab: (cm) => {
+              cm.replaceSelection("\t");
+            },
+          },
         }}
-      ></textarea>
+        onBeforeChange={(editor, data, value) => {
+          handleChange(editor, data, value);
+        }}
+      />
+      {isComplete && (
+        <div className="popup">
+          <div className="popup-content">
+            <h2>Result</h2>
+            <p>Words: {wordCount}</p>
+            <p>Time Elapsed: {timeElapsed.toFixed(2)} seconds</p>
+            <p>Words per Minute (WPM): {wordsPerMinute}</p>
+            <button onClick={handleReset}>Reset</button>
+          </div>
+        </div>
+      )}
       <div style={{ marginTop: "20px" }}>
         <p>Words: {wordCount}</p>
         <p>Time Elapsed: {timeElapsed.toFixed(2)} seconds</p>
