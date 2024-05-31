@@ -109,7 +109,7 @@ const TypingSpeed = ({ sampleCode, handleReset, showBackButton }) => {
         <p>Words: {wordCount}</p>
         <p>Time Elapsed: {timeElapsed.toFixed(2)} seconds</p>
         <p>Words per Minute (WPM): {wordsPerMinute}</p>
-        <button onClick={handleReset}>Reset</button>
+        {/* <button onClick={handleReset}>Reset</button> */}
       </div>
     </div>
   );
