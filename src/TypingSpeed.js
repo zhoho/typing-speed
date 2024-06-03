@@ -1,10 +1,12 @@
+// /src/TypingSpeed.js
+
 import React, { useState, useEffect } from "react";
 import { Controlled as CodeMirror } from "react-codemirror2";
 import "codemirror/lib/codemirror.css";
 import "codemirror/theme/material.css";
 import "codemirror/mode/python/python";
 import "codemirror/mode/clike/clike";
-import "./TypingSpeed.css";
+import styled from "styled-components";
 
 const TypingSpeed = ({ sampleCode, handleReset, showBackButton }) => {
   const [text, setText] = useState("");
@@ -59,60 +61,117 @@ const TypingSpeed = ({ sampleCode, handleReset, showBackButton }) => {
   };
 
   return (
-    <div style={{ padding: "20px" }}>
+    <Container>
       <h1>Typing Speed Test</h1>
-      {showBackButton && (
-        <button className="back-button" onClick={handleReset}>
-          Back
-        </button>
-      )}
-      <div className="code-container">
+      {showBackButton && <BackButton onClick={handleReset}>Back</BackButton>}
+      <CodeContainer>
         <pre>{renderCode()}</pre>
-      </div>
-      <CodeMirror
-        value={text}
-        options={{
-          mode:
-            sampleCode.includes("class") || sampleCode.includes("System.out")
-              ? "text/x-java"
-              : sampleCode.includes("printf")
-              ? "text/x-csrc"
-              : "python",
-          theme: "material",
-          lineNumbers: true,
-          indentWithTabs: true,
-          indentUnit: 4,
-          tabSize: 4,
-          smartIndent: true,
-          extraKeys: {
-            Tab: (cm) => {
-              cm.replaceSelection("\t");
+      </CodeContainer>
+      <CodeDiv>
+        <CodeMirror
+          value={text}
+          options={{
+            mode:
+              sampleCode.includes("class") || sampleCode.includes("System.out")
+                ? "text/x-java"
+                : sampleCode.includes("printf")
+                ? "text/x-csrc"
+                : "python",
+            theme: "material",
+            lineNumbers: true,
+            indentWithTabs: true,
+            indentUnit: 4,
+            tabSize: 4,
+            smartIndent: true,
+            extraKeys: {
+              Tab: (cm) => {
+                cm.replaceSelection("\t");
+              },
             },
-          },
-        }}
-        onBeforeChange={(editor, data, value) => {
-          handleChange(editor, data, value);
-        }}
-      />
+          }}
+          onBeforeChange={(editor, data, value) => {
+            handleChange(editor, data, value);
+          }}
+        />
+      </CodeDiv>
       {isComplete && (
-        <div className="popup">
-          <div className="popup-content">
+        <Popup>
+          <PopupContent>
             <h2>Result</h2>
             <p>Words: {wordCount}</p>
             <p>Time Elapsed: {timeElapsed.toFixed(2)} seconds</p>
             <p>Words per Minute (WPM): {wordsPerMinute}</p>
             <button onClick={handleReset}>Reset</button>
-          </div>
-        </div>
+          </PopupContent>
+        </Popup>
       )}
       <div style={{ marginTop: "20px" }}>
         <p>Words: {wordCount}</p>
         <p>Time Elapsed: {timeElapsed.toFixed(2)} seconds</p>
         <p>Words per Minute (WPM): {wordsPerMinute}</p>
-        {/* <button onClick={handleReset}>Reset</button> */}
       </div>
-    </div>
+    </Container>
   );
 };
 
 export default TypingSpeed;
+
+const Container = styled.div`
+  padding: 20px;
+`;
+
+const CodeContainer = styled.div`
+  background-color: #f0f0f0;
+  text-align: left;
+  padding: 10px;
+  margin-bottom: 20px;
+  border-radius: 5px;
+  font-family: "Courier New", Courier, monospace;
+  font-size: 16px;
+  white-space: pre-wrap;
+`;
+
+const CodeDiv = styled.div`
+  text-align: left;
+
+  .CodeMirror {
+    height: auto;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 16px;
+    margin-bottom: 20px;
+  }
+`;
+
+const BackButton = styled.button`
+  font-size: 16px;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  background-color: #6c757d;
+  color: white;
+  cursor: pointer;
+  margin-bottom: 20px;
+  transition: background-color 0.3s ease;
+
+  &:hover {
+    background-color: #5a6268;
+  }
+`;
+
+const Popup = styled.div`
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+`;
+
+const PopupContent = styled.div`
+  text-align: center;
+`;

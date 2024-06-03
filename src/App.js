@@ -1,9 +1,11 @@
+// /src/App.js
+
 import React, { useState } from "react";
+import styled from "styled-components";
 import TypingSpeed from "./TypingSpeed";
 import pythonExamples from "./examples/python";
 import javaExamples from "./examples/java";
 import cExamples from "./examples/c";
-import "./App.css";
 
 const App = () => {
   const [language, setLanguage] = useState(null);
@@ -35,40 +37,68 @@ const App = () => {
   };
 
   return (
-    <div className="App">
+    <AppContainer>
       {!language ? (
-        <div className="language-select">
+        <LanguageSelectContainer>
           <h1>Select a Language to Practice</h1>
-          <div className="button-container">
-            <button
-              className="language-button"
-              onClick={() => handleLanguageSelect("python")}
-            >
+          <ButtonContainer>
+            <LanguageButton onClick={() => handleLanguageSelect("python")}>
               Python
-            </button>
-            <button
-              className="language-button"
-              onClick={() => handleLanguageSelect("java")}
-            >
+            </LanguageButton>
+            <LanguageButton onClick={() => handleLanguageSelect("java")}>
               Java
-            </button>
-            <button
-              className="language-button"
-              onClick={() => handleLanguageSelect("c")}
-            >
+            </LanguageButton>
+            <LanguageButton onClick={() => handleLanguageSelect("c")}>
               C
-            </button>
-          </div>
-        </div>
+            </LanguageButton>
+          </ButtonContainer>
+        </LanguageSelectContainer>
       ) : (
-        <TypingSpeed
-          sampleCode={sampleCode}
-          handleReset={handleBack}
-          showBackButton={true}
-        />
+        <>
+          <TypingSpeed
+            sampleCode={sampleCode}
+            handleReset={handleBack}
+            showBackButton={true}
+          />
+        </>
       )}
-    </div>
+    </AppContainer>
   );
 };
 
 export default App;
+
+const AppContainer = styled.div`
+  text-align: center;
+  font-family: Arial, sans-serif;
+  padding: 20px;
+`;
+
+const LanguageSelectContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+`;
+
+const ButtonContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+`;
+
+const LanguageButton = styled.button`
+  font-size: 18px;
+  padding: 15px 30px;
+  border: none;
+  border-radius: 5px;
+  background-color: #007bff;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+
+  &:hover {
+    background-color: #0056b3;
+  }
+`;
