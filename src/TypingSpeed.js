@@ -1,6 +1,4 @@
-// /src/TypingSpeed.js
-
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Controlled as CodeMirror } from "react-codemirror2";
 import "codemirror/lib/codemirror.css";
 import "codemirror/theme/material.css";
@@ -8,41 +6,17 @@ import "codemirror/mode/python/python";
 import "codemirror/mode/clike/clike";
 import styled from "styled-components";
 
-const TypingSpeed = ({ sampleCode, handleReset, showBackButton }) => {
-  const [text, setText] = useState("");
-  const [startTime, setStartTime] = useState(null);
-  const [wordCount, setWordCount] = useState(0);
-  const [timeElapsed, setTimeElapsed] = useState(0);
-  const [isComplete, setIsComplete] = useState(false);
-
-  useEffect(() => {
-    let timer;
-    if (startTime && !isComplete) {
-      timer = setInterval(() => {
-        setTimeElapsed((Date.now() - startTime) / 1000);
-      }, 100);
-    }
-    return () => clearInterval(timer);
-  }, [startTime, isComplete]);
-
-  useEffect(() => {
-    if (text === sampleCode) {
-      setIsComplete(true);
-    }
-  }, [text, sampleCode]);
-
-  const handleChange = (editor, data, value) => {
-    setText(value);
-
-    if (!startTime) {
-      setStartTime(Date.now());
-    }
-
-    const words = value.trim().split(/\s+/).filter(Boolean);
-    setWordCount(words.length);
-  };
-
-  const wordsPerMinute = (wordCount / (timeElapsed / 60)).toFixed(2);
+const TypingSpeed = ({
+  sampleCode,
+  handleReset,
+  text,
+  handleChange,
+  isComplete,
+  wordsPerMinute,
+  accuracy,
+}) => {
+  const [nickname, setNickname] = useState("");
+  const [showRegisterPopup, setShowRegisterPopup] = useState(false);
 
   const renderCode = () => {
     return sampleCode.split("").map((char, index) => {
@@ -60,14 +34,25 @@ const TypingSpeed = ({ sampleCode, handleReset, showBackButton }) => {
     });
   };
 
+  const handleRegister = () => {
+    setShowRegisterPopup(true);
+  };
+
+  const handleRegisterSubmit = () => {
+    // handle nickname registration logic
+    setShowRegisterPopup(false);
+    handleReset();
+  };
+
   return (
     <Container>
-      <h1>Typing Speed Test</h1>
-      {showBackButton && <BackButton onClick={handleReset}>Back</BackButton>}
+      <Header>
+        <h1>Typing Speed Test</h1>
+      </Header>
       <CodeContainer>
         <pre>{renderCode()}</pre>
       </CodeContainer>
-      <CodeDiv>
+      <EditorContainer>
         <CodeMirror
           value={text}
           options={{
@@ -93,23 +78,43 @@ const TypingSpeed = ({ sampleCode, handleReset, showBackButton }) => {
             handleChange(editor, data, value);
           }}
         />
-      </CodeDiv>
+      </EditorContainer>
       {isComplete && (
         <Popup>
           <PopupContent>
             <h2>Result</h2>
-            <p>Words: {wordCount}</p>
-            <p>Time Elapsed: {timeElapsed.toFixed(2)} seconds</p>
-            <p>Words per Minute (WPM): {wordsPerMinute}</p>
-            <button onClick={handleReset}>Reset</button>
+            <MetricResult>
+              <p>WPM: {wordsPerMinute}</p>
+              <p>Accuracy: {accuracy}%</p>
+              <Score>Score: {wordsPerMinute * accuracy}</Score>
+            </MetricResult>
+            <ButtonContainer>
+              <Button onClick={handleReset}>Cancel</Button>
+              <Button primary onClick={handleRegister}>
+                Register
+              </Button>
+            </ButtonContainer>
           </PopupContent>
         </Popup>
       )}
-      <div style={{ marginTop: "20px" }}>
-        <p>Words: {wordCount}</p>
-        <p>Time Elapsed: {timeElapsed.toFixed(2)} seconds</p>
-        <p>Words per Minute (WPM): {wordsPerMinute}</p>
-      </div>
+      {showRegisterPopup && (
+        <Popup>
+          <PopupContent>
+            <h2>Result</h2>
+            <p>Type a Nickname</p>
+            <NicknameInput
+              type="text"
+              value={nickname}
+              onChange={(e) => setNickname(e.target.value)}
+            />
+            <ButtonContainer>
+              <Button primary onClick={handleRegisterSubmit}>
+                OK
+              </Button>
+            </ButtonContainer>
+          </PopupContent>
+        </Popup>
+      )}
     </Container>
   );
 };
@@ -118,6 +123,20 @@ export default TypingSpeed;
 
 const Container = styled.div`
   padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
+const Header = styled.div`
+  width: 100%;
+  text-align: center;
+  margin-bottom: 20px;
+
+  h1 {
+    font-size: 24px;
+    color: #333;
+  }
 `;
 
 const CodeContainer = styled.div`
@@ -129,9 +148,13 @@ const CodeContainer = styled.div`
   font-family: "Courier New", Courier, monospace;
   font-size: 16px;
   white-space: pre-wrap;
+  width: 100%;
+  max-width: 800px;
 `;
 
-const CodeDiv = styled.div`
+const EditorContainer = styled.div`
+  width: 100%;
+  max-width: 800px;
   text-align: left;
 
   .CodeMirror {
@@ -143,35 +166,80 @@ const CodeDiv = styled.div`
   }
 `;
 
-const BackButton = styled.button`
-  font-size: 16px;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 5px;
-  background-color: #6c757d;
-  color: white;
-  cursor: pointer;
-  margin-bottom: 20px;
-  transition: background-color 0.3s ease;
-
-  &:hover {
-    background-color: #5a6268;
-  }
-`;
-
 const Popup = styled.div`
   position: fixed;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  background-color: white;
+  background-color: #ffb300;
   padding: 20px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
+  border-radius: 8px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   z-index: 1000;
 `;
 
 const PopupContent = styled.div`
+  text-align: center;
+
+  h2 {
+    margin-bottom: 20px;
+    font-size: 24px;
+    color: #333;
+  }
+
+  p {
+    margin: 10px 0;
+    font-size: 18px;
+  }
+`;
+
+const MetricResult = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 20px;
+
+  p {
+    font-size: 20px;
+    margin: 5px 0;
+  }
+`;
+
+const Score = styled.p`
+  font-size: 24px;
+  font-weight: bold;
+  margin-top: 10px;
+`;
+
+const ButtonContainer = styled.div`
+  display: flex;
+  justify-content: space-around;
+  margin-top: 20px;
+  gap: 20px;
+`;
+
+const Button = styled.button`
+  padding: 10px 20px;
+  font-size: 16px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  background-color: ${(props) => (props.primary ? "#28a745" : "#6c757d")};
+  color: white;
+  transition: background-color 0.3s;
+
+  &:hover {
+    background-color: ${(props) => (props.primary ? "#218838" : "#5a6268")};
+  }
+`;
+
+const NicknameInput = styled.input`
+  padding: 10px;
+  font-size: 16px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  margin-bottom: 20px;
+  width: 80%;
+  max-width: 300px;
   text-align: center;
 `;
