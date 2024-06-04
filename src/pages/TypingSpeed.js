@@ -21,10 +21,6 @@ const TypingSpeed = ({
   const [nickname, setNickname] = useState("");
   const [showRegisterPopup, setShowRegisterPopup] = useState(false);
 
-  useEffect(() => {
-    console.log(score);
-  }, []);
-
   const renderCode = () => {
     return sampleCode.split("").map((char, index) => {
       let color;
@@ -41,25 +37,29 @@ const TypingSpeed = ({
     });
   };
 
-  const handleRegister = () => {
-    setShowRegisterPopup(true);
+  const handleRegister = async () => {
     setIsComplete(false);
+    if (localStorage.getItem("nickname") === null) {
+      setShowRegisterPopup(true);
+    } else {
+      if (score < wordsPerMinute * accuracy) {
+        await setDoc(
+          doc(dbService, "scores", localStorage.getItem("nickname")),
+          {
+            score: wordsPerMinute * accuracy,
+          }
+        );
+      }
+    }
   };
 
   const handleRegisterSubmit = async () => {
     setShowRegisterPopup(false);
     // handle nickname registration logic
-    if (
-      localStorage.getItem("nickname") === null ||
-      localStorage.getItem("nickname") !== nickname
-    ) {
-      localStorage.setItem("nickname", nickname);
-      if (score < wordsPerMinute * accuracy) {
-        await setDoc(doc(dbService, "scores", nickname), {
-          score: wordsPerMinute * accuracy,
-        });
-      }
-    }
+    localStorage.setItem("nickname", nickname);
+    await setDoc(doc(dbService, "scores", nickname), {
+      score: wordsPerMinute * accuracy,
+    });
     handleReset();
   };
 
