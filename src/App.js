@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-import TypingSpeed from "./TypingSpeed";
+import TypingSpeed from "./pages/TypingSpeed";
+import Leaderboard from "./pages/Leaderboard";
+import Sidebar from "./common/Sidebar";
 import pythonExamples from "./examples/python";
 import javaExamples from "./examples/java";
 import cExamples from "./examples/c";
@@ -15,6 +17,7 @@ const App = () => {
   const [timeElapsed, setTimeElapsed] = useState(0);
   const [isComplete, setIsComplete] = useState(false);
   const [correctChars, setCorrectChars] = useState(0);
+  const [view, setView] = useState("home");
 
   useEffect(() => {
     let timer;
@@ -51,12 +54,14 @@ const App = () => {
     const randomExample = examples[Math.floor(Math.random() * examples.length)];
     setSampleCode(randomExample.trim());
     resetState();
+    setView("typing");
   };
 
   const handleBack = () => {
     setLanguage(null);
     setSampleCode("");
     resetState();
+    setView("home");
   };
 
   const resetState = () => {
@@ -91,39 +96,29 @@ const App = () => {
   const accuracy =
     text.length > 0 ? ((correctChars / text.length) * 100).toFixed(2) : 0;
 
+  const showLeaderboard = () => {
+    setView("leaderboard");
+  };
+
   return (
     <AppContainer>
-      <Sidebar>
-        <LogoContainer>
-          <Logo src={logo} alt="Taco Typing Code" />
-        </LogoContainer>
-        <Explorer>
-          <h2>Explorer</h2>
-          <LanguageList>
-            <LanguageItem onClick={() => handleLanguageSelect("c")}>
-              C/C++
-            </LanguageItem>
-            <LanguageItem onClick={() => handleLanguageSelect("python")}>
-              Python
-            </LanguageItem>
-            <LanguageItem onClick={() => handleLanguageSelect("java")}>
-              Java
-            </LanguageItem>
-          </LanguageList>
-        </Explorer>
-        <DebugInfo>
-          <DebugItem>Time Elapsed: {timeElapsed.toFixed(2)} seconds</DebugItem>
-          <DebugItem>Words per Minute (WPM): {wordsPerMinute}</DebugItem>
-          <DebugItem>Accuracy: {accuracy}%</DebugItem>
-        </DebugInfo>
-      </Sidebar>
+      <Sidebar
+        timeElapsed={timeElapsed}
+        wordsPerMinute={wordsPerMinute}
+        accuracy={accuracy}
+        handleLanguageSelect={handleLanguageSelect}
+        showLeaderboard={showLeaderboard}
+        view={view}
+        handleBack={handleBack}
+      />
       <Content>
-        {!language ? (
+        {view === "home" && (
           <LanguageSelectContainer>
-            <Logo src={logo} alt="Taco Typing Code" large />
+            <Logo src={logo} alt="Taco Typing Code" />
             <SelectText>Select the Code File</SelectText>
           </LanguageSelectContainer>
-        ) : (
+        )}
+        {view === "typing" && (
           <TypingSpeed
             sampleCode={sampleCode}
             handleReset={handleBack}
@@ -132,6 +127,16 @@ const App = () => {
             isComplete={isComplete}
             wordsPerMinute={wordsPerMinute}
             accuracy={accuracy}
+          />
+        )}
+        {view === "leaderboard" && (
+          <Leaderboard
+            handleBack={handleBack}
+            timeElapsed={timeElapsed}
+            wordsPerMinute={wordsPerMinute}
+            accuracy={accuracy}
+            handleLanguageSelect={handleLanguageSelect}
+            showLeaderboard={showLeaderboard}
           />
         )}
       </Content>
@@ -145,52 +150,6 @@ const AppContainer = styled.div`
   display: flex;
   height: 100vh;
   font-family: Arial, sans-serif;
-`;
-
-const Sidebar = styled.div`
-  width: 250px;
-  background-color: #ffb300;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 20px;
-`;
-
-const LogoContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-bottom: 20px;
-`;
-
-const Logo = styled.img`
-  width: ${(props) => (props.large ? "300px" : "200px")};
-`;
-
-const Explorer = styled.div`
-  width: 100%;
-`;
-
-const LanguageList = styled.ul`
-  list-style-type: none;
-  padding: 0;
-`;
-
-const LanguageItem = styled.li`
-  padding: 10px;
-  cursor: pointer;
-  &:hover {
-    background-color: #ff8c00;
-  }
-`;
-
-const DebugInfo = styled.div`
-  margin-top: auto;
-  text-align: center;
-`;
-
-const DebugItem = styled.p`
-  margin: 5px 0;
 `;
 
 const Content = styled.div`
@@ -210,4 +169,8 @@ const LanguageSelectContainer = styled.div`
 
 const SelectText = styled.h1`
   margin-top: 20px;
+`;
+
+const Logo = styled.img`
+  width: 250px;
 `;
