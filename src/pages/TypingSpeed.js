@@ -169,6 +169,10 @@ const CodeContainer = styled.div`
   white-space: pre-wrap;
   width: 100%;
   max-width: 800px;
+  -webkit-user-select: none; /* For Safari */
+  -moz-user-select: none; /* For Firefox */
+  -ms-user-select: none; /* For Internet Explorer/Edge */
+  user-select: none; /* Prevents text selection */
 `;
 
 const EditorContainer = styled.div`
