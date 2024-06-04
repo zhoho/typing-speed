@@ -7,9 +7,9 @@ import pythonExamples from "./examples/python";
 import javaExamples from "./examples/java";
 import cExamples from "./examples/c";
 import logo from "./assets/logo.png";
+import { collection, getDocs, query, dbService, orderBy } from "./config/fbase";
 
 const App = () => {
-  const [language, setLanguage] = useState(null);
   const [sampleCode, setSampleCode] = useState("");
   const [text, setText] = useState("");
   const [startTime, setStartTime] = useState(null);
@@ -18,6 +18,40 @@ const App = () => {
   const [isComplete, setIsComplete] = useState(false);
   const [correctChars, setCorrectChars] = useState(0);
   const [view, setView] = useState("home");
+  const [scores, setScores] = useState([]);
+  const [myScore, setMyScore] = useState(null);
+  const [score, setScore] = useState(0);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const querySnapshot = await getDocs(
+          query(collection(dbService, "scores"), orderBy("score", "desc"))
+        );
+        const newScores = [];
+        querySnapshot.docs.forEach((doc, i) => {
+          newScores.push({
+            rank: i + 1,
+            nickname: doc.id,
+            score: doc.data().score,
+          });
+          if (localStorage.getItem("nickname") === doc.id) {
+            setMyScore({
+              rank: i + 1,
+              nickname: doc.id,
+              score: doc.data().score,
+            });
+            setScore(doc.data().score);
+          }
+        });
+        setScores(newScores);
+      } catch (error) {
+        alert("Fetching Data Failed: ", error);
+      }
+    };
+
+    fetchData();
+  }, [view]);
 
   useEffect(() => {
     let timer;
@@ -36,7 +70,6 @@ const App = () => {
   }, [text, sampleCode]);
 
   const handleLanguageSelect = (lang) => {
-    setLanguage(lang);
     let examples;
     switch (lang) {
       case "python":
@@ -58,7 +91,6 @@ const App = () => {
   };
 
   const handleBack = () => {
-    setLanguage(null);
     setSampleCode("");
     resetState();
     setView("home");
@@ -110,6 +142,7 @@ const App = () => {
         showLeaderboard={showLeaderboard}
         view={view}
         handleBack={handleBack}
+        myScore={myScore}
       />
       <Content>
         {view === "home" && (
@@ -125,20 +158,13 @@ const App = () => {
             text={text}
             handleChange={handleChange}
             isComplete={isComplete}
+            setIsComplete={setIsComplete}
             wordsPerMinute={wordsPerMinute}
             accuracy={accuracy}
+            score={score}
           />
         )}
-        {view === "leaderboard" && (
-          <Leaderboard
-            handleBack={handleBack}
-            timeElapsed={timeElapsed}
-            wordsPerMinute={wordsPerMinute}
-            accuracy={accuracy}
-            handleLanguageSelect={handleLanguageSelect}
-            showLeaderboard={showLeaderboard}
-          />
-        )}
+        {view === "leaderboard" && <Leaderboard scores={scores} />}
       </Content>
     </AppContainer>
   );

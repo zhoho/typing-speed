@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Controlled as CodeMirror } from "react-codemirror2";
 import "codemirror/lib/codemirror.css";
 import "codemirror/theme/material.css";
 import "codemirror/mode/python/python";
 import "codemirror/mode/clike/clike";
 import styled from "styled-components";
+import { dbService, doc, setDoc } from "../config/fbase";
 
 const TypingSpeed = ({
   sampleCode,
@@ -12,11 +13,17 @@ const TypingSpeed = ({
   text,
   handleChange,
   isComplete,
+  setIsComplete,
   wordsPerMinute,
   accuracy,
+  score,
 }) => {
   const [nickname, setNickname] = useState("");
   const [showRegisterPopup, setShowRegisterPopup] = useState(false);
+
+  useEffect(() => {
+    console.log(score);
+  }, []);
 
   const renderCode = () => {
     return sampleCode.split("").map((char, index) => {
@@ -36,11 +43,23 @@ const TypingSpeed = ({
 
   const handleRegister = () => {
     setShowRegisterPopup(true);
+    setIsComplete(false);
   };
 
-  const handleRegisterSubmit = () => {
-    // handle nickname registration logic
+  const handleRegisterSubmit = async () => {
     setShowRegisterPopup(false);
+    // handle nickname registration logic
+    if (
+      localStorage.getItem("nickname") === null ||
+      localStorage.getItem("nickname") !== nickname
+    ) {
+      localStorage.setItem("nickname", nickname);
+      if (score < wordsPerMinute * accuracy) {
+        await setDoc(doc(dbService, "scores", nickname), {
+          score: wordsPerMinute * accuracy,
+        });
+      }
+    }
     handleReset();
   };
 
