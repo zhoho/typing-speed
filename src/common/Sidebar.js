@@ -54,9 +54,8 @@ const Sidebar = ({
                 ? (
                     <PlayerRank>
                       <p>
-                      You don't have
-                      <br />a ranking yet.
-                    </p>
+                        You don't have a ranking yet.
+                      </p>
                     </PlayerRank>
                   )
                 : (
