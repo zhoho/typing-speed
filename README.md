@@ -1,66 +1,66 @@
-# Getting Started with Create React App
+![Alt text](img/taco.png)
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+---
 
-## Available Scripts
+# Taco (Typing code practice)
 
-In the project directory, you can run:
+## Try It Out
 
-### `npm start`
+Experience the Typing Speed Test in action: [**Click Here to Test Your Typing Speed**](https://taco---typing-code.web.app/)
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+---
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## 🚀 Overview
 
-### `npm test`
+Typing Speed Test is a sleek and interactive web application designed to measure and enhance your typing skills. Built with the power of React and Firebase, it offers a seamless user experience across various devices.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## 🛠 Installation
 
-### `npm run build`
+1. **Clone the Repository**
+   ```bash
+   git clone https://github.com/zhoho/typing-speed.git
+   ```
+2. **Navigate to the Project Directory**
+   ```bash
+   cd typing-speed
+   ```
+3. **Install Dependencies**
+   ```bash
+   npm install
+   ```
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## 🚀 Getting Started
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+- **Start the Development Server**
+  ```bash
+  npm start
+  ```
+- **Open in Browser**
+  Visit [http://localhost:3000](http://localhost:3000) to see the application in action.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## 📜 Available Scripts
 
-### `npm run eject`
+- **`npm start`**: Launch the app in development mode.
+- **`npm test`**: Run tests to ensure code quality.
+- **`npm run build`**: Compile the app for production.
+- **`npm run eject`**: Customize the Create React App configuration.
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+## Demo
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+![Alt text](img/taco_1.png)
+![Alt text](img/taco_2.png)
+![Alt text](img/taco_3.png)
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+## 🤝 Contributing
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+We welcome contributions! Fork the repo, create a feature branch, and submit a pull request. Let's build something amazing together!
 
-## Learn More
+## 📄 License
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+---
 
-### Analyzing the Bundle Size
+Elevate your typing game with the Typing Speed Test app! 🚀
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+---
