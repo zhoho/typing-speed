@@ -6,13 +6,13 @@
 
 ## Try It Out
 
-Experience the Typing Speed Test in action: [**Click Here to Test Your Typing Speed**](https://taco---typing-code.web.app/)
+You wanna try it? : [**Click Here to Test Your Typing Speed**](https://taco---typing-code.web.app/)
 
 ---
 
-## 🚀 Overview
+## 🚀 Introduction
 
-Typing Speed Test is a sleek and interactive web application designed to measure and enhance your typing skills. Built with the power of React and Firebase, it offers a seamless user experience across various devices.
+![Alt text](img/taco_0.png)
 
 ## 🛠 Installation
 
