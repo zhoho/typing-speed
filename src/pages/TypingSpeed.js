@@ -30,7 +30,7 @@ const TypingSpeed = ({
         color = 'gray'
       }
       return (
-        <span key={index} style={{ color: color }}>
+        <span key={index} style={{ color }}>
           {char}
         </span>
       )
@@ -176,7 +176,7 @@ const CodeContainer = styled.div`
 `
 
 const EditorContainer = styled.div`
-  width: 100%
+  width: 100%;
   max-width: 800px;
   text-align: left;
 
