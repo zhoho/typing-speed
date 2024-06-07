@@ -17,59 +17,61 @@ const Sidebar = ({
       <LogoContainer>
         <Logo src={logo} alt='Taco Typing Code' />
       </LogoContainer>
-      {view !== 'leaderboard' ?
-       (
-        <>
-          <Explorer>
-            <h2>Explorer</h2>
-            <LanguageList>
-              <LanguageItem onClick={() => handleLanguageSelect('c')}>
-                C/C++
-              </LanguageItem>
-              <LanguageItem onClick={() => handleLanguageSelect('python')}>
-                Python
-              </LanguageItem>
-              <LanguageItem onClick={() => handleLanguageSelect('java')}>
-                Java
-              </LanguageItem>
-            </LanguageList>
-          </Explorer>
-          <DebugInfo>
-            <DebugItem>
-              Time Elapsed: {timeElapsed.toFixed(2)} seconds
-            </DebugItem>
-            <DebugItem>Words per Minute (WPM): {wordsPerMinute}</DebugItem>
-            <DebugItem>Accuracy: {accuracy}%</DebugItem>
-          </DebugInfo>
-          <LeaderboardButton onClick={showLeaderboard}>
-            Leaderboard
-          </LeaderboardButton>
-        </>
-      ) : (
-        <>
-          <Ranking>
-            <h2>Ranking</h2>
-            {myScore === null ? (
-              <PlayerRank>
-                <p>
-                  You don't have
-                  <br />a ranking yet.
-                </p>
-              </PlayerRank>
-            ) : (
-              <PlayerRank>
-                <p>#{myScore.rank}</p>
-                <p>{myScore.nickname}</p>
-                <p>score: {myScore.score}</p>
-              </PlayerRank>
-            )}
-          </Ranking>
-          <BackButton onClick={handleBack}>Back</BackButton>
-        </>
-      )}
-    </SidebarContainer>
-  )
-}
+      {view !== 'leaderboard' 
+        ? (
+          <>
+            <Explorer>
+              <h2>Explorer</h2>
+              <LanguageList>
+                <LanguageItem onClick={() => handleLanguageSelect('c')}>
+                  C/C++
+                </LanguageItem>
+                <LanguageItem onClick={() => handleLanguageSelect('python')}>
+                  Python
+                </LanguageItem>
+                <LanguageItem onClick={() => handleLanguageSelect('java')}>
+                  Java
+                </LanguageItem>
+              </LanguageList>
+            </Explorer>
+            <DebugInfo>
+              <DebugItem>
+                Time Elapsed: {timeElapsed.toFixed(2)} seconds
+              </DebugItem>
+              <DebugItem>Words per Minute (WPM): {wordsPerMinute}</DebugItem>
+              <DebugItem>Accuracy: {accuracy}%</DebugItem>
+            </DebugInfo>
+            <LeaderboardButton onClick={showLeaderboard}>
+              Leaderboard
+            </LeaderboardButton>
+          </>
+        ) 
+          : (
+            <>
+              <Ranking>
+                <h2>Ranking</h2>
+                {myScore === null ? (
+                  <PlayerRank>
+                    <p>
+                      You don't have
+                      <br />a ranking yet.
+                    </p>
+                  </PlayerRank>
+                ) 
+                : (
+                  <PlayerRank>
+                    <p>#{myScore.rank}</p>
+                    <p>{myScore.nickname}</p>
+                    <p>score: {myScore.score}</p>
+                  </PlayerRank>
+                )}
+              </Ranking>
+            <BackButton onClick={handleBack}>Back</BackButton>
+          </>
+        )}
+      </SidebarContainer>
+    )
+  }
 
 export default Sidebar
 
