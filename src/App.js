@@ -3,6 +3,7 @@ import styled from "styled-components";
 import TypingSpeed from "./pages/TypingSpeed";
 import Leaderboard from "./pages/Leaderboard";
 import Sidebar from "./common/Sidebar";
+
 import pythonExamples from "./examples/python";
 import javaExamples from "./examples/java";
 import cExamples from "./examples/c";
@@ -11,126 +12,126 @@ import { collection, getDocs, query, dbService, orderBy } from "./config/fbase";
 import { calculateWordsPerMinute, calculateAccuracy } from "./utils";
 
 const App = () => {
-  const [sampleCode, setSampleCode] = useState("");
-  const [text, setText] = useState("");
-  const [startTime, setStartTime] = useState(null);
-  const [wordCount, setWordCount] = useState(0);
-  const [timeElapsed, setTimeElapsed] = useState(0);
-  const [isComplete, setIsComplete] = useState(false);
-  const [correctChars, setCorrectChars] = useState(0);
-  const [view, setView] = useState("home");
-  const [scores, setScores] = useState([]);
-  const [myScore, setMyScore] = useState(null);
-  const [score, setScore] = useState(0);
+  const [sampleCode, setSampleCode] = useState('')
+  const [text, setText] = useState('')
+  const [startTime, setStartTime] = useState(null)
+  const [wordCount, setWordCount] = useState(0)
+  const [timeElapsed, setTimeElapsed] = useState(0)
+  const [isComplete, setIsComplete] = useState(false)
+  const [correctChars, setCorrectChars] = useState(0)
+  const [view, setView] = useState('home')
+  const [scores, setScores] = useState([])
+  const [myScore, setMyScore] = useState(null)
+  const [score, setScore] = useState(0)
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const querySnapshot = await getDocs(
-          query(collection(dbService, "scores"), orderBy("score", "desc"))
-        );
-        const newScores = [];
+          query(collection(dbService, 'scores'), orderBy('score', 'desc'))
+        )
+        const newScores = []
         querySnapshot.docs.forEach((doc, i) => {
           newScores.push({
             rank: i + 1,
             nickname: doc.id,
-            score: doc.data().score,
-          });
-          if (localStorage.getItem("nickname") === doc.id) {
+            score: doc.data().score
+          })
+          if (localStorage.getItem('nickname') === doc.id) {
             setMyScore({
               rank: i + 1,
               nickname: doc.id,
-              score: doc.data().score,
-            });
-            setScore(doc.data().score);
+              score: doc.data().score
+            })
+            setScore(doc.data().score)
           }
-        });
-        setScores(newScores);
+        })
+        setScores(newScores)
       } catch (error) {
-        alert("Fetching Data Failed: ", error);
+        alert('Fetching Data Failed: ', error)
       }
-    };
+    }
 
-    fetchData();
-  }, [view]);
+    fetchData()
+  }, [view])
 
   useEffect(() => {
-    let timer;
+    let timer
     if (startTime && !isComplete) {
       timer = setInterval(() => {
-        setTimeElapsed((Date.now() - startTime) / 1000);
-      }, 100);
+        setTimeElapsed((Date.now() - startTime) / 1000)
+      }, 100)
     }
-    return () => clearInterval(timer);
-  }, [startTime, isComplete]);
+    return () => clearInterval(timer)
+  }, [startTime, isComplete])
 
   useEffect(() => {
     if (text === sampleCode) {
-      setIsComplete(true);
+      setIsComplete(true)
     }
-  }, [text, sampleCode]);
+  }, [text, sampleCode])
 
   const handleLanguageSelect = (lang) => {
-    let examples;
+    let examples
     switch (lang) {
-      case "python":
-        examples = pythonExamples;
-        break;
-      case "java":
-        examples = javaExamples;
-        break;
-      case "c":
-        examples = cExamples;
-        break;
+      case 'python':
+        examples = pythonExamples
+        break
+      case 'java':
+        examples = javaExamples
+        break
+      case 'c':
+        examples = cExamples
+        break
       default:
-        examples = [];
+        examples = []
     }
-    const randomExample = examples[Math.floor(Math.random() * examples.length)];
-    setSampleCode(randomExample.trim());
-    resetState();
-    setView("typing");
-  };
+    const randomExample = examples[Math.floor(Math.random() * examples.length)]
+    setSampleCode(randomExample.trim())
+    resetState()
+    setView('typing')
+  }
 
   const handleBack = () => {
-    setSampleCode("");
-    resetState();
-    setView("home");
-  };
+    setSampleCode('')
+    resetState()
+    setView('home')
+  }
 
   const resetState = () => {
-    setText("");
-    setStartTime(null);
-    setWordCount(0);
-    setTimeElapsed(0);
-    setIsComplete(false);
-    setCorrectChars(0);
-  };
+    setText('')
+    setStartTime(null)
+    setWordCount(0)
+    setTimeElapsed(0)
+    setIsComplete(false)
+    setCorrectChars(0)
+  }
 
   const handleChange = (editor, data, value) => {
-    setText(value);
+    setText(value)
 
     if (!startTime) {
-      setStartTime(Date.now());
+      setStartTime(Date.now())
     }
 
-    const words = value.trim().split(/\s+/).filter(Boolean);
-    setWordCount(words.length);
+    const words = value.trim().split(/\s+/).filter(Boolean)
+    setWordCount(words.length)
 
-    let correct = 0;
+    let correct = 0
     for (let i = 0; i < value.length; i++) {
       if (value[i] === sampleCode[i]) {
-        correct++;
+        correct++
       }
     }
-    setCorrectChars(correct);
-  };
+    setCorrectChars(correct)
+  }
 
   const wordsPerMinute = calculateWordsPerMinute(wordCount, timeElapsed);
   const accuracy = calculateAccuracy(correctChars, text.length);
 
   const showLeaderboard = () => {
-    setView("leaderboard");
-  };
+    setView('leaderboard')
+  }
 
   return (
     <AppContainer>
@@ -145,13 +146,13 @@ const App = () => {
         myScore={myScore}
       />
       <Content>
-        {view === "home" && (
+        {view === 'home' && (
           <LanguageSelectContainer>
-            <Logo src={logo} alt="Taco Typing Code" />
+            <Logo src={logo} alt='Taco Typing Code' />
             <SelectText>Select the Code File</SelectText>
           </LanguageSelectContainer>
         )}
-        {view === "typing" && (
+        {view === 'typing' && (
           <TypingSpeed
             sampleCode={sampleCode}
             handleReset={handleBack}
@@ -164,19 +165,19 @@ const App = () => {
             score={score}
           />
         )}
-        {view === "leaderboard" && <Leaderboard scores={scores} />}
+        {view === 'leaderboard' && <Leaderboard scores={scores} />}
       </Content>
     </AppContainer>
-  );
-};
+  )
+}
 
-export default App;
+export default App
 
 const AppContainer = styled.div`
   display: flex;
   height: 100vh;
   font-family: Arial, sans-serif;
-`;
+`
 
 const Content = styled.div`
   flex: 1;
@@ -184,19 +185,19 @@ const Content = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-`;
+`
 
 const LanguageSelectContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-`;
+`
 
 const SelectText = styled.h1`
   margin-top: 20px;
-`;
+`
 
 const Logo = styled.img`
   width: 250px;
-`;
+`
