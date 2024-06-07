@@ -1,13 +1,15 @@
-import React, { useState, useEffect } from 'react'
-import styled from 'styled-components'
-import TypingSpeed from './pages/TypingSpeed'
-import Leaderboard from './pages/Leaderboard'
-import Sidebar from './common/Sidebar'
-import pythonExamples from './examples/python'
-import javaExamples from './examples/java'
-import cExamples from './examples/c'
-import logo from './assets/logo.png'
-import { collection, getDocs, query, dbService, orderBy } from './config/fbase'
+import React, { useState, useEffect } from "react";
+import styled from "styled-components";
+import TypingSpeed from "./pages/TypingSpeed";
+import Leaderboard from "./pages/Leaderboard";
+import Sidebar from "./common/Sidebar";
+
+import pythonExamples from "./examples/python";
+import javaExamples from "./examples/java";
+import cExamples from "./examples/c";
+import logo from "./assets/logo.png";
+import { collection, getDocs, query, dbService, orderBy } from "./config/fbase";
+import { calculateWordsPerMinute, calculateAccuracy } from "./utils";
 
 const App = () => {
   const [sampleCode, setSampleCode] = useState('')
@@ -124,9 +126,8 @@ const App = () => {
     setCorrectChars(correct)
   }
 
-  const wordsPerMinute = (wordCount / (timeElapsed / 60)).toFixed(2)
-  const accuracy =
-    text.length > 0 ? ((correctChars / text.length) * 100).toFixed(2) : 0
+  const wordsPerMinute = calculateWordsPerMinute(wordCount, timeElapsed);
+  const accuracy = calculateAccuracy(correctChars, text.length);
 
   const showLeaderboard = () => {
     setView('leaderboard')
