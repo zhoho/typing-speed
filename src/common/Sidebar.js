@@ -17,7 +17,7 @@ const Sidebar = ({
       <LogoContainer>
         <Logo src={logo} alt='Taco Typing Code' />
       </LogoContainer>
-      {view !== 'leaderboard' 
+      {view !== 'leaderboard'
         ? (
           <>
             <Explorer>
@@ -45,8 +45,8 @@ const Sidebar = ({
               Leaderboard
             </LeaderboardButton>
           </>
-        ) 
-          : (
+          )
+      : (
             <>
               <Ranking>
                 <h2>Ranking</h2>
@@ -57,21 +57,21 @@ const Sidebar = ({
                       <br />a ranking yet.
                     </p>
                   </PlayerRank>
-                ) 
-                : (
+                )
+                  : (
                   <PlayerRank>
                     <p>#{myScore.rank}</p>
                     <p>{myScore.nickname}</p>
                     <p>score: {myScore.score}</p>
                   </PlayerRank>
-                )}
+                    )}
               </Ranking>
-            <BackButton onClick={handleBack}>Back</BackButton>
-          </>
-        )}
-      </SidebarContainer>
-    )
-  }
+              <BackButton onClick={handleBack}>Back</BackButton>
+            </>
+          )}
+    </SidebarContainer>
+  )
+}
 
 export default Sidebar
 
