@@ -53,17 +53,17 @@ const Sidebar = ({
               {myScore === null
                 ? (
                   <PlayerRank>
-                      <p>
-                        You don't have a ranking yet.
-                      </p>
-                    </PlayerRank>
+                    <p>
+                      You don't have a ranking yet.
+                    </p>
+                  </PlayerRank>
                   )
                 : (
                   <PlayerRank>
-                      <p>#{myScore.rank}</p>
-                      <p>{myScore.nickname}</p>
-                      <p>score: {myScore.score}</p>
-                    </PlayerRank>
+                    <p>#{myScore.rank}</p>
+                    <p>{myScore.nickname}</p>
+                    <p>score: {myScore.score}</p>
+                  </PlayerRank>
                   )}
             </Ranking>
             <BackButton onClick={handleBack}>Back</BackButton>
