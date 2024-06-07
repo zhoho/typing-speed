@@ -176,7 +176,7 @@ const CodeContainer = styled.div`
 `
 
 const EditorContainer = styled.div`
-  width: 100%;
+  width: 100%
   max-width: 800px;
   text-align: left;
 

@@ -8,8 +8,8 @@ const javaExamples = [
 \t\t\tSystem.out.println();
 \t\t}
 \t}
-}`,
+}`
   // 다른 자바 예제들 추가
-];
+]
 
-export default javaExamples;
+export default javaExamples
