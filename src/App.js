@@ -8,6 +8,7 @@ import javaExamples from "./examples/java";
 import cExamples from "./examples/c";
 import logo from "./assets/logo.png";
 import { collection, getDocs, query, dbService, orderBy } from "./config/fbase";
+import { calculateWordsPerMinute, calculateAccuracy } from "./utils";
 
 const App = () => {
   const [sampleCode, setSampleCode] = useState("");
@@ -124,9 +125,8 @@ const App = () => {
     setCorrectChars(correct);
   };
 
-  const wordsPerMinute = (wordCount / (timeElapsed / 60)).toFixed(2);
-  const accuracy =
-    text.length > 0 ? ((correctChars / text.length) * 100).toFixed(2) : 0;
+  const wordsPerMinute = calculateWordsPerMinute(wordCount, timeElapsed);
+  const accuracy = calculateAccuracy(correctChars, text.length);
 
   const showLeaderboard = () => {
     setView("leaderboard");
