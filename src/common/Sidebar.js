@@ -17,7 +17,8 @@ const Sidebar = ({
       <LogoContainer>
         <Logo src={logo} alt='Taco Typing Code' />
       </LogoContainer>
-      {view !== 'leaderboard' ? (
+      {view !== 'leaderboard' ?
+       (
         <>
           <Explorer>
             <h2>Explorer</h2>
