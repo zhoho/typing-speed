@@ -57,7 +57,7 @@ We welcome contributions! Fork the repo, create a feature branch, and submit a p
 
 ## 📄 License
 
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+This project is licensed under the Apache License 2.0 License. See the [LICENSE](LICENSE) file for details.
 
 ---
 
