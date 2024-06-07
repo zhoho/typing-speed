@@ -49,10 +49,10 @@ const Sidebar = ({
         : (
           <>
             <Ranking>
-                <h2>Ranking</h2>
-                {myScore === null
+              <h2>Ranking</h2>
+              {myScore === null
                   ? (
-                  <PlayerRank>
+                    <PlayerRank>
                     <p>
                       You don't have
                       <br />a ranking yet.
@@ -66,10 +66,10 @@ const Sidebar = ({
                       <p>score: {myScore.score}</p>
                     </PlayerRank>
                     )}
-              </Ranking>
-          <BackButton onClick={handleBack}>Back</BackButton>
-            </>
-      )}
+            </Ranking>
+            <BackButton onClick={handleBack}>Back</BackButton>
+          </>
+          )}
     </SidebarContainer>
   )
 }
