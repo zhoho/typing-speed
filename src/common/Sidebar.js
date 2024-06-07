@@ -50,7 +50,8 @@ const Sidebar = ({
         <>
               <Ranking>
                 <h2>Ranking</h2>
-                {myScore === null ? (
+                {myScore === null 
+                ? (
                   <PlayerRank>
                     <p>
                       You don't have
