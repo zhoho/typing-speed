@@ -9,8 +9,8 @@ int main() {
 \t\tprintf("\\n");
 \t}
 \treturn 0;
-}`,
+}`
   // 다른 C 예제들 추가
-];
+]
 
-export default cExamples;
+export default cExamples

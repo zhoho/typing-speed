@@ -1,5 +1,5 @@
-import React from "react";
-import styled from "styled-components";
+import React from 'react'
+import styled from 'styled-components'
 
 const Leaderboard = ({ scores }) => {
   return (
@@ -10,11 +10,11 @@ const Leaderboard = ({ scores }) => {
           <LeaderboardItem key={player.rank}>
             <span>
               {player.rank === 1
-                ? "🥇"
+                ? '🥇'
                 : player.rank === 2
-                ? "🥈"
+                ? '🥈'
                 : player.rank === 3
-                ? "🥉"
+                ? '🥉'
                 : `#${player.rank}`}
             </span>
             <span>{player.nickname}</span>
@@ -23,10 +23,10 @@ const Leaderboard = ({ scores }) => {
         ))}
       </LeaderboardList>
     </Content>
-  );
-};
+  )
+}
 
-export default Leaderboard;
+export default Leaderboard
 
 const Content = styled.div`
   display: flex;
@@ -34,17 +34,17 @@ const Content = styled.div`
   align-items: center;
   padding: 20px;
   width: 30%;
-`;
+`
 
 const LeaderboardHeader = styled.h1`
   margin-bottom: 20px;
-`;
+`
 
 const LeaderboardList = styled.ul`
   list-style: none;
   padding: 0;
   width: 100%;
-`;
+`
 
 const LeaderboardItem = styled.li`
   display: flex;
@@ -55,4 +55,4 @@ const LeaderboardItem = styled.li`
   span:first-child {
     font-weight: bold;
   }
-`;
+`
