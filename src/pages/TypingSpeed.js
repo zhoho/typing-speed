@@ -79,8 +79,8 @@ const TypingSpeed = ({
               sampleCode.includes('class') || sampleCode.includes('System.out')
                 ? 'text/x-java'
                 : sampleCode.includes('printf')
-                ? 'text/x-csrc'
-                : 'python',
+                  ? 'text/x-csrc'
+                  : 'python',
             theme: 'material',
             lineNumbers: true,
             indentWithTabs: true,

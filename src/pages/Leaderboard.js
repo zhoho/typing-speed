@@ -12,10 +12,10 @@ const Leaderboard = ({ scores }) => {
               {player.rank === 1
                 ? '🥇'
                 : player.rank === 2
-                ? '🥈'
-                : player.rank === 3
-                ? '🥉'
-                : `#${player.rank}`}
+                  ? '🥈'
+                  : player.rank === 3
+                    ? '🥉'
+                    : `#${player.rank}`}
             </span>
             <span>{player.nickname}</span>
             <span>score: {player.score}</span>
