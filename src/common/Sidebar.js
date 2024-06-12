@@ -31,6 +31,30 @@ const Sidebar = ({
               <LanguageItem onClick={() => handleLanguageSelect("java")}>
                 Java
               </LanguageItem>
+              <LanguageItem onClick={() => handleLanguageSelect("javascript")}>
+                Javascript
+              </LanguageItem>
+              <LanguageItem onClick={() => handleLanguageSelect("typescript")}>
+                Typescript
+              </LanguageItem>
+              <LanguageItem onClick={() => handleLanguageSelect("dart")}>
+                Dart
+              </LanguageItem>
+              <LanguageItem onClick={() => handleLanguageSelect("go")}>
+                Go
+              </LanguageItem>
+              <LanguageItem onClick={() => handleLanguageSelect("ruby")}>
+                Ruby
+              </LanguageItem>
+              <LanguageItem onClick={() => handleLanguageSelect("rust")}>
+                Rust
+              </LanguageItem>
+              <LanguageItem onClick={() => handleLanguageSelect("kotlin")}>
+                Kotlin
+              </LanguageItem>
+              <LanguageItem onClick={() => handleLanguageSelect("swift")}>
+                Swift
+              </LanguageItem>
             </LanguageList>
           </Explorer>
           <DebugInfo>

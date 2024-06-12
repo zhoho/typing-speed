@@ -1,11 +1,11 @@
-import React, { useState } from 'react'
-import { Controlled as CodeMirror } from 'react-codemirror2'
-import 'codemirror/lib/codemirror.css'
-import 'codemirror/theme/material.css'
-import 'codemirror/mode/python/python'
-import 'codemirror/mode/clike/clike'
-import styled from 'styled-components'
-import { dbService, doc, setDoc } from '../config/fbase'
+import React, { useState } from "react";
+import { Controlled as CodeMirror } from "react-codemirror2";
+import "codemirror/lib/codemirror.css";
+import "codemirror/theme/material.css";
+import "codemirror/mode/python/python";
+import "codemirror/mode/clike/clike";
+import styled from "styled-components";
+import { dbService, doc, setDoc } from "../config/fbase";
 
 const TypingSpeed = ({
   sampleCode,
@@ -16,52 +16,53 @@ const TypingSpeed = ({
   setIsComplete,
   wordsPerMinute,
   accuracy,
-  score
+  score,
 }) => {
-  const [nickname, setNickname] = useState('')
-  const [showRegisterPopup, setShowRegisterPopup] = useState(false)
+  const [nickname, setNickname] = useState("");
+  const [showRegisterPopup, setShowRegisterPopup] = useState(false);
 
   const renderCode = () => {
-    return sampleCode.split('').map((char, index) => {
-      let color
+    return sampleCode.split("").map((char, index) => {
+      let color;
       if (index < text.length) {
-        color = text[index] === char ? 'green' : 'red'
+        color = text[index] === char ? "green" : "red";
       } else {
-        color = 'gray'
+        color = "gray";
       }
       return (
         <span key={index} style={{ color }}>
           {char}
         </span>
-      )
-    })
-  }
+      );
+    });
+  };
 
   const handleRegister = async () => {
-    setIsComplete(false)
-    if (localStorage.getItem('nickname') === null) {
-      setShowRegisterPopup(true)
+    setIsComplete(false);
+    if (localStorage.getItem("nickname") === null) {
+      setShowRegisterPopup(true);
     } else {
       if (score < wordsPerMinute * accuracy) {
         await setDoc(
-          doc(dbService, 'scores', localStorage.getItem('nickname')),
+          doc(dbService, "scores", localStorage.getItem("nickname")),
           {
-            score: wordsPerMinute * accuracy
+            score: wordsPerMinute * accuracy,
           }
-        )
+        );
       }
+      handleReset();
     }
-  }
+  };
 
   const handleRegisterSubmit = async () => {
-    setShowRegisterPopup(false)
+    setShowRegisterPopup(false);
     // handle nickname registration logic
-    localStorage.setItem('nickname', nickname)
-    await setDoc(doc(dbService, 'scores', nickname), {
-      score: wordsPerMinute * accuracy
-    })
-    handleReset()
-  }
+    localStorage.setItem("nickname", nickname);
+    await setDoc(doc(dbService, "scores", nickname), {
+      score: wordsPerMinute * accuracy,
+    });
+    handleReset();
+  };
 
   return (
     <Container>
@@ -76,12 +77,12 @@ const TypingSpeed = ({
           value={text}
           options={{
             mode:
-              sampleCode.includes('class') || sampleCode.includes('System.out')
-                ? 'text/x-java'
-                : sampleCode.includes('printf')
-                  ? 'text/x-csrc'
-                  : 'python',
-            theme: 'material',
+              sampleCode.includes("class") || sampleCode.includes("System.out")
+                ? "text/x-java"
+                : sampleCode.includes("printf")
+                ? "text/x-csrc"
+                : "python",
+            theme: "material",
             lineNumbers: true,
             indentWithTabs: true,
             indentUnit: 4,
@@ -89,12 +90,12 @@ const TypingSpeed = ({
             smartIndent: true,
             extraKeys: {
               Tab: (cm) => {
-                cm.replaceSelection('\t')
-              }
-            }
+                cm.replaceSelection("\t");
+              },
+            },
           }}
           onBeforeChange={(editor, data, value) => {
-            handleChange(editor, data, value)
+            handleChange(editor, data, value);
           }}
         />
       </EditorContainer>
@@ -122,7 +123,7 @@ const TypingSpeed = ({
             <h2>Result</h2>
             <p>Type a Nickname</p>
             <NicknameInput
-              type='text'
+              type="text"
               value={nickname}
               onChange={(e) => setNickname(e.target.value)}
             />
@@ -135,17 +136,17 @@ const TypingSpeed = ({
         </Popup>
       )}
     </Container>
-  )
-}
+  );
+};
 
-export default TypingSpeed
+export default TypingSpeed;
 
 const Container = styled.div`
   padding: 20px;
   display: flex;
   flex-direction: column;
   align-items: center;
-`
+`;
 
 const Header = styled.div`
   width: 100%;
@@ -156,7 +157,7 @@ const Header = styled.div`
     font-size: 24px;
     color: #333;
   }
-`
+`;
 
 const CodeContainer = styled.div`
   background-color: #f0f0f0;
@@ -164,7 +165,7 @@ const CodeContainer = styled.div`
   padding: 10px;
   margin-bottom: 20px;
   border-radius: 5px;
-  font-family: 'Courier New', Courier, monospace;
+  font-family: "Courier New", Courier, monospace;
   font-size: 16px;
   white-space: pre-wrap;
   width: 100%;
@@ -173,7 +174,7 @@ const CodeContainer = styled.div`
   -moz-user-select: none; /* For Firefox */
   -ms-user-select: none; /* For Internet Explorer/Edge */
   user-select: none; /* Prevents text selection */
-`
+`;
 
 const EditorContainer = styled.div`
   width: 100%;
@@ -187,7 +188,7 @@ const EditorContainer = styled.div`
     font-size: 16px;
     margin-bottom: 20px;
   }
-`
+`;
 
 const Popup = styled.div`
   position: fixed;
@@ -199,7 +200,7 @@ const Popup = styled.div`
   border-radius: 8px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   z-index: 1000;
-`
+`;
 
 const PopupContent = styled.div`
   text-align: center;
@@ -214,7 +215,7 @@ const PopupContent = styled.div`
     margin: 10px 0;
     font-size: 18px;
   }
-`
+`;
 
 const MetricResult = styled.div`
   display: flex;
@@ -226,20 +227,20 @@ const MetricResult = styled.div`
     font-size: 20px;
     margin: 5px 0;
   }
-`
+`;
 
 const Score = styled.p`
   font-size: 24px;
   font-weight: bold;
   margin-top: 10px;
-`
+`;
 
 const ButtonContainer = styled.div`
   display: flex;
   justify-content: space-around;
   margin-top: 20px;
   gap: 20px;
-`
+`;
 
 const Button = styled.button`
   padding: 10px 20px;
@@ -247,14 +248,14 @@ const Button = styled.button`
   border: none;
   border-radius: 5px;
   cursor: pointer;
-  background-color: ${(props) => (props.primary ? '#28a745' : '#6c757d')};
+  background-color: ${(props) => (props.primary ? "#28a745" : "#6c757d")};
   color: white;
   transition: background-color 0.3s;
 
   &:hover {
-    background-color: ${(props) => (props.primary ? '#218838' : '#5a6268')};
+    background-color: ${(props) => (props.primary ? "#218838" : "#5a6268")};
   }
-`
+`;
 
 const NicknameInput = styled.input`
   padding: 10px;
@@ -265,4 +266,4 @@ const NicknameInput = styled.input`
   width: 80%;
   max-width: 300px;
   text-align: center;
-`
+`;
