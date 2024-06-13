@@ -68,6 +68,8 @@ const TypingSpeed = ({
     <Container>
       <Header>
         <h1>Typing Speed Test</h1>
+        <pre>Press Shift + Enter when wrapping lines</pre>
+        <pre>Use the tab key for indentation</pre>
       </Header>
       <CodeContainer>
         <pre>{renderCode()}</pre>
