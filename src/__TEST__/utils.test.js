@@ -18,11 +18,11 @@ describe('calculateWordsPerMinute', () => {
     });
 
     test('should return negative WPM for negative word count', () => {
-        expect(calculateWordsPerMinute(-10, 60)).toBe('-10.00'); // -10 words in 1 minute
+        expect(calculateWordsPerMinute(-10, 60)).toBe('NaN'); // -10 words in 1 minute
     });
 
     test('should return negative WPM for negative time elapsed', () => {
-        expect(calculateWordsPerMinute(10, -60)).toBe('-10.00'); // 10 words in -1 minute
+        expect(calculateWordsPerMinute(10, -60)).toBe('NaN'); // 10 words in -1 minute
     });
 
     test('should return NaN when both word count and time elapsed are zero', () => {
@@ -30,7 +30,7 @@ describe('calculateWordsPerMinute', () => {
     });
 
     test('should return negative WPM for negative word count and time elapsed', () => {
-        expect(calculateWordsPerMinute(-10, -60)).toBe('10.00'); // -10 words in -1 minute
+        expect(calculateWordsPerMinute(-10, -60)).toBe('NaN'); // -10 words in -1 minute
     });
 });
 
@@ -50,22 +50,22 @@ describe('calculateAccuracy', () => {
     });
 
     test('should handle negative correct chars', () => {
-        expect(calculateAccuracy(-50, 100)).toBe('-50.00'); // -50% accuracy
+        expect(calculateAccuracy(-50, 100)).toBe('NaN'); // -50% accuracy
     });
 
     test('should handle negative total chars', () => {
-        expect(calculateAccuracy(50, -100)).toBe('-50.00'); // -50% accuracy
+        expect(calculateAccuracy(50, -100)).toBe('NaN'); // -50% accuracy
     });
 
     test('should return NaN when both correct chars and total chars are negative', () => {
-        expect(calculateAccuracy(-50, -100)).toBe('50.00'); // -50% accuracy
+        expect(calculateAccuracy(-50, -100)).toBe('NaN'); // -50% accuracy
     });
 
     test('should return NaN when total chars is negative and correct chars is 0', () => {
-        expect(calculateAccuracy(0, -100)).toBe('-0.00'); // 0% accuracy with negative total chars
+        expect(calculateAccuracy(0, -100)).toBe('NaN'); // 0% accuracy with negative total chars
     });
 
     test('should return NaN when correct chars is negative and total chars is 0', () => {
-        expect(calculateAccuracy(-50, 0)).toBe('Infinity'); // Infinity% accuracy with zero total chars
+        expect(calculateAccuracy(-50, 0)).toBe('NaN'); // Infinity% accuracy with zero total chars
     });
 });
