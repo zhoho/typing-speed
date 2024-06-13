@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import logo from "../assets/logo.png";
 
@@ -12,6 +12,8 @@ const Sidebar = ({
   handleBack,
   myScore,
 }) => {
+  const [selectLanguage, setSelectLanguage] = useState("");
+
   return (
     <SidebarContainer>
       <LogoContainer>
@@ -22,37 +24,111 @@ const Sidebar = ({
           <Explorer>
             <h2>Explorer</h2>
             <LanguageList>
-              <LanguageItem onClick={() => handleLanguageSelect("c")}>
+              <LanguageItem
+                onClick={() => {
+                  handleLanguageSelect("c");
+                  setSelectLanguage("c");
+                }}
+                style={{ fontWeight: selectLanguage === "c" ? "bold" : "" }}
+              >
                 C/C++
               </LanguageItem>
-              <LanguageItem onClick={() => handleLanguageSelect("python")}>
+              <LanguageItem
+                onClick={() => {
+                  handleLanguageSelect("python");
+                  setSelectLanguage("python");
+                }}
+                style={{
+                  fontWeight: selectLanguage === "python" ? "bold" : "",
+                }}
+              >
                 Python
               </LanguageItem>
-              <LanguageItem onClick={() => handleLanguageSelect("java")}>
+              <LanguageItem
+                onClick={() => {
+                  handleLanguageSelect("java");
+                  setSelectLanguage("java");
+                }}
+                style={{ fontWeight: selectLanguage === "java" ? "bold" : "" }}
+              >
                 Java
               </LanguageItem>
-              <LanguageItem onClick={() => handleLanguageSelect("javascript")}>
+              <LanguageItem
+                onClick={() => {
+                  handleLanguageSelect("javascript");
+                  setSelectLanguage("javascript");
+                }}
+                style={{
+                  fontWeight: selectLanguage === "javascript" ? "bold" : "",
+                }}
+              >
                 Javascript
               </LanguageItem>
-              <LanguageItem onClick={() => handleLanguageSelect("typescript")}>
+              <LanguageItem
+                onClick={() => {
+                  handleLanguageSelect("typescript");
+                  setSelectLanguage("typescript");
+                }}
+                style={{
+                  fontWeight: selectLanguage === "typescript" ? "bold" : "",
+                }}
+              >
                 Typescript
               </LanguageItem>
-              <LanguageItem onClick={() => handleLanguageSelect("dart")}>
+              <LanguageItem
+                onClick={() => {
+                  handleLanguageSelect("dart");
+                  setSelectLanguage("dart");
+                }}
+                style={{ fontWeight: selectLanguage === "dart" ? "bold" : "" }}
+              >
                 Dart
               </LanguageItem>
-              <LanguageItem onClick={() => handleLanguageSelect("go")}>
+              <LanguageItem
+                onClick={() => {
+                  handleLanguageSelect("go");
+                  setSelectLanguage("go");
+                }}
+                style={{ fontWeight: selectLanguage === "go" ? "bold" : "" }}
+              >
                 Go
               </LanguageItem>
-              <LanguageItem onClick={() => handleLanguageSelect("ruby")}>
+              <LanguageItem
+                onClick={() => {
+                  handleLanguageSelect("ruby");
+                  setSelectLanguage("ruby");
+                }}
+                style={{ fontWeight: selectLanguage === "ruby" ? "bold" : "" }}
+              >
                 Ruby
               </LanguageItem>
-              <LanguageItem onClick={() => handleLanguageSelect("rust")}>
+              <LanguageItem
+                onClick={() => {
+                  handleLanguageSelect("rust");
+                  setSelectLanguage("rust");
+                }}
+                style={{ fontWeight: selectLanguage === "rust" ? "bold" : "" }}
+              >
                 Rust
               </LanguageItem>
-              <LanguageItem onClick={() => handleLanguageSelect("kotlin")}>
+              <LanguageItem
+                onClick={() => {
+                  handleLanguageSelect("kotlin");
+                  setSelectLanguage("kotlin");
+                }}
+                style={{
+                  fontWeight: selectLanguage === "kotlin" ? "bold" : "",
+                }}
+              >
                 Kotlin
               </LanguageItem>
-              <LanguageItem onClick={() => handleLanguageSelect("swift")}>
+              <LanguageItem
+                onClick={() => {
+                  handleLanguageSelect("swift");
+                  setSelectLanguage("swift");
+                }}
+                style={{ fontWeight: selectLanguage === "swift" ? "bold" : "" }}
+              >
                 Swift
               </LanguageItem>
             </LanguageList>
