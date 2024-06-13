@@ -170,12 +170,14 @@ const Sidebar = ({
 export default Sidebar;
 
 const SidebarContainer = styled.div`
-  width: 250px;
+  width: 300px;
   background-color: #ffb300;
   display: flex;
   flex-direction: column;
   align-items: center;
   padding: 20px;
+  height: 100vh;
+  position: fixed;
 `;
 
 const LogoContainer = styled.div`
@@ -196,6 +198,8 @@ const Explorer = styled.div`
 const LanguageList = styled.ul`
   list-style-type: none;
   padding: 0;
+  overflow-y: scroll;
+  height: 400px;
 `;
 
 const LanguageItem = styled.li`
@@ -207,7 +211,6 @@ const LanguageItem = styled.li`
 `;
 
 const DebugInfo = styled.div`
-  margin-top: auto;
   text-align: right;
 `;
 

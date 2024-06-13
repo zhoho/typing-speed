@@ -96,9 +96,7 @@ const TypingSpeed = ({
               },
             },
           }}
-          onBeforeChange={(editor, data, value) => {
-            handleChange(editor, data, value);
-          }}
+          onBeforeChange={handleChange}
         />
       </EditorContainer>
       {isComplete && (

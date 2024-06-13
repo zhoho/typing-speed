@@ -30,6 +30,7 @@ const App = () => {
   const [scores, setScores] = useState([]);
   const [myScore, setMyScore] = useState(null);
   const [score, setScore] = useState(0);
+  let timer;
 
   useEffect(() => {
     const fetchData = async () => {
@@ -63,7 +64,6 @@ const App = () => {
   }, [view]);
 
   useEffect(() => {
-    let timer;
     if (startTime && !isComplete) {
       timer = setInterval(() => {
         setTimeElapsed((Date.now() - startTime) / 1000);
@@ -139,22 +139,27 @@ const App = () => {
   };
 
   const handleChange = (editor, data, value) => {
-    setText(value);
-
-    if (!startTime) {
-      setStartTime(Date.now());
-    }
-
-    const words = value.trim().split(/\s+/).filter(Boolean);
-    setWordCount(words.length);
-
-    let correct = 0;
-    for (let i = 0; i < value.length; i++) {
-      if (value[i] === sampleCode[i]) {
-        correct++;
+    if (data.origin === "paste") {
+      resetState();
+      setView("home");
+      alert("Paste is prohibited!");
+    } else {
+      setText(value);
+      if (!startTime) {
+        setStartTime(Date.now());
       }
+
+      const words = value.trim().split(/\s+/).filter(Boolean);
+      setWordCount(words.length);
+
+      let correct = 0;
+      for (let i = 0; i < value.length; i++) {
+        if (value[i] === sampleCode[i]) {
+          correct++;
+        }
+      }
+      setCorrectChars(correct);
     }
-    setCorrectChars(correct);
   };
 
   const wordsPerMinute = calculateWordsPerMinute(wordCount, timeElapsed);
@@ -206,8 +211,8 @@ export default App;
 
 const AppContainer = styled.div`
   display: flex;
-  height: 100vh;
   font-family: Arial, sans-serif;
+  height: 100vh;
 `;
 
 const Content = styled.div`
@@ -216,6 +221,9 @@ const Content = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  overflow-y: scroll;
+  margin: auto auto;
+  margin-left: 300px;
 `;
 
 const LanguageSelectContainer = styled.div`
